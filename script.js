@@ -19,20 +19,39 @@ function appendChar(char) {
   expression += char;
 }
 
+function areParenthesesBalanced(expr) {
+  let stack = [];
+  for (let char of expr) {
+    if (char === '(') stack.push(char);
+    else if (char === ')') {
+      if (!stack.length) return false;
+      stack.pop();
+    }
+  }
+  return stack.length === 0;
+}
+
+function sanitizeExpression(expr) {
+  return expr
+    .replace(/sin\(/g, 'Math.sin(')
+    .replace(/cos\(/g, 'Math.cos(')
+    .replace(/tan\(/g, 'Math.tan(')
+    .replace(/log\(/g, 'Math.log(')
+    .replace(/exp\(/g, 'Math.exp(')
+    .replace(/sqrt\(/g, 'Math.sqrt(')
+    .replace(/PI/g, 'Math.PI')
+    .replace(/(\d+|\([^()]+\))\^2/g, 'Math.pow($1,2)')
+    .replace(/(\w+|\([^()]+\))\^(\d+)/g, 'Math.pow($1,$2)');
+}
+
 function evaluateExpression(expr) {
   try {
-    if (!/^[-+*/^().\d\s\w]+$/.test(expr)) throw 'Invalid characters';
-    expr = expr
-      .replace(/sin\(/g, 'Math.sin(')
-      .replace(/cos\(/g, 'Math.cos(')
-      .replace(/tan\(/g, 'Math.tan(')
-      .replace(/log\(/g, 'Math.log(')
-      .replace(/exp\(/g, 'Math.exp(')
-      .replace(/sqrt\(/g, 'Math.sqrt(')
-      .replace(/PI/g, 'Math.PI')
-      .replace(/(\d+)\^2/g, 'Math.pow($1,2)');
-
-    return Function(`"use strict"; return (${expr})`)();
+    if (!/^[0-9+\-*/^().\sPIsqrtcosintanglogexp]+$/.test(expr)) throw 'Invalid characters';
+    if (!areParenthesesBalanced(expr)) throw 'Unbalanced parentheses';
+    expr = sanitizeExpression(expr);
+    const result = Function(`"use strict"; return (${expr})`)();
+    if (isNaN(result) || !isFinite(result)) throw 'Invalid result';
+    return result;
   } catch {
     return 'Error';
   }
