@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Basic Calculator</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div class="calculator">
+        <div class="display" id="display">0</div>
+        <button id="sci-toggle" class="sci-toggle">Scientific Mode</button>
+        <div class="buttons">
+            <button id="clear" class="span-two">AC</button>
+            <button id="delete">DEL</button>
+            <button data-operation="/" class="operator">÷</button>
+
+            <button data-number="7">7</button>
+            <button data-number="8">8</button>
+            <button data-number="9">9</button>
+            <button data-operation="*" class="operator">×</button>
+
+            <button data-number="4">4</button>
+            <button data-number="5">5</button>
+            <button data-number="6">6</button>
+            <button data-operation="-" class="operator">−</button>
+
+            <button data-number="1">1</button>
+            <button data-number="2">2</button>
+            <button data-number="3">3</button>
+            <button data-operation="+" class="operator">+</button>
+
+            <button data-number="0" class="span-two">0</button>
+            <button data-number=".">.</button>
+            <button data-paren="(">(</button>
+            
+            <button id="equals" class="equals">=</button>
+            <button data-paren=")">)</button>
+        </div>
+        <div id="sci-panel" class="sci-panel hidden">
+            <button data-func="sqrt">√</button>
+            <button data-func="square">x²</button>
+            <button data-func="recip">1/x</button>
+            <button data-func="sin">sin</button>
+            <button data-func="cos">cos</button>
+            <button data-func="tan">tan</button>
+            <button data-func="log">log</button>
+            <button data-func="exp">exp</button>
+            <button data-func="PI">π</button>
+        </div>
+    </div>
+    <script src="script.js" defer></script>
+</body>
+
+</html>
